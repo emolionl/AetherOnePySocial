@@ -35,6 +35,13 @@ AetherOnePySocial_Postman_Collection.json
 ```
 pytest
 ```
+# To build frontend you could use openAPI
+```
+python ./generateOpenAPI.py
+```
+## you will generate 
+```openapi.json``` file
+
 
 # Introduction to the AetherOnePySocial Project
 
