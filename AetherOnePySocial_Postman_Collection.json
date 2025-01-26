@@ -1,0 +1,118 @@
+{
+    "info": {
+        "name": "FastAPI MVC Project",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "item": [
+                {
+                    "name": "Register User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8000/api/auth/register",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "auth",
+                                "register"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"username\": \"testuser\", \"email\": \"test@example.com\", \"password\": \"password123\"}"
+                        }
+                    }
+                },
+                {
+                    "name": "Login User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8000/api/auth/login",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\": \"test@example.com\", \"password\": \"password123\"}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Machines",
+            "item": [
+                {
+                    "name": "Create Machine",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8000/api/machines/",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "machines"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"machine_name\": \"Machine1\", \"description\": \"Test machine\", \"api_key\": \"1234\"}"
+                        }
+                    }
+                },
+                {
+                    "name": "Get Machines",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8000/api/machines/",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "api",
+                                "machines"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

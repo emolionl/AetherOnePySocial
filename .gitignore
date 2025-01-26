@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+env/
+venv/
+*.env
+
+# Editor-specific
+.vscode/
+.idea/
+
+# Database and other data
+data/
+
+
+# Testing
+*.sqlite3
+*.db
+pytest_cache/
+
+# Logs
+logs/
+*.log
+
+# Dependency directories
+node_modules/
+site/
+
+# Build and packaging
+*.egg-info/
+dist/
+build/
