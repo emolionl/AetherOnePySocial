@@ -3,9 +3,12 @@
 ### Group Analysis with AetherOnePy Integration
 This API serves as a backend for extending the functionality of AetherOnePy, a powerful program for conducting individual analyses and broadcasts. While AetherOnePy excels in individual work, this project is designed to enable collaborative group analysis and broadcasting efforts by:
 
-### Combining Analysis Results: When multiple users perform analyses on the same subject, this API collects and consolidates their results.
-### Group Broadcasting: Facilitates group collaboration by merging intentions and ensuring coordinated broadcasts.
-### Team Collaboration: The API is built to support distributed teams working together on shared projects, enhancing the efficiency of group efforts.
+### Combining Analysis Results: 
+When multiple users perform analyses on the same subject, this API collects and consolidates their results.
+### Group Broadcasting: 
+Facilitates group collaboration by merging intentions and ensuring coordinated broadcasts.
+### Team Collaboration: 
+The API is built to support distributed teams working together on shared projects, enhancing the efficiency of group efforts.
 
 
 # Getting started
