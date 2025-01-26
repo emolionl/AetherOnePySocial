@@ -29,6 +29,7 @@ pytest
 
 files schema
 # Directory Structure:
+```
  project/
  ├── app/
  │   ├── __init__.py
@@ -81,3 +82,5 @@ files schema
  │   ├── test_merged_analysis.py
  │   ├── test_comparison.py
  ├── .gitignore
+
+```
