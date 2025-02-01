@@ -1,17 +1,16 @@
 from pydantic import BaseModel
 
 class CaseCreate(BaseModel):
-    name: str
-    email: str
-    color: str
+    title: str
     description: str
+    class Config:
+        from_attributes = True
 
 class CaseResponse(BaseModel):
     id: int
-    name: str
-    email: str
-    color: str
+    title: str
     description: str
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+    }

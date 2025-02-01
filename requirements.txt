@@ -1,0 +1,19 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+pydantic
+pydantic-settings
+email-validator
+passlib[bcrypt]
+alembic
+pytest
+sqlalchemy-to-pydantic
+python-jose[cryptography]
+python-multipart
+python-dotenv
+# Test dependencies
+pytest
+httpx
+pytest-cov
+pytest-order 

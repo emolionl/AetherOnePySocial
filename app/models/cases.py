@@ -6,6 +6,8 @@ class Case(Base):
     __tablename__ = "cases"
 
     id = Column(Integer, primary_key=True, index=True)
+    local_id = Column(Integer, nullable=True)  # ID from local machine
+    machine_id = Column(String, nullable=True)
     name = Column(String, index=True)
     email = Column(String)
     color = Column(String)

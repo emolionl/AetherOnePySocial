@@ -85,7 +85,7 @@ All endpoints are tested using **pytest**. The `tests/` directory includes test 
 ### 1. **Clone the Repository**
 ```bash
 git clone <repository-url>
-cd fastapi_mvc_project
+cd AetherOnePySocial
 ```
 
 ### 2. **Set Up the Environment**
@@ -93,7 +93,7 @@ Create a virtual environment and install dependencies:
 ```bash
 python -m venv env
 source env/bin/activate  # On Windows: env\Scripts\activate
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ### 3. **Run the Application**

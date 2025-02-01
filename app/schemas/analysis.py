@@ -13,5 +13,6 @@ class AnalysisResponse(BaseModel):
     session_id: int
     catalog_id: int
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True  # Using the new model_config dict instead of Config class
+    }
