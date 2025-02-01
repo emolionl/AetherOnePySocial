@@ -7,8 +7,17 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Get DATABASE_URL from environment variable
+# Get DATABASE_URL from environment variable with error handling
 DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError(
+        "No DATABASE_URL set in environment variables. "
+        "Please set DATABASE_URL in your environment or .env file."
+    )
+
+# Handle special case for Railway's Postgres URL
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
