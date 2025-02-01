@@ -19,7 +19,6 @@ ENV/
 # Database and other data
 data/
 
-
 # Testing
 *.sqlite3
 *.db
@@ -52,3 +51,12 @@ wheels/
 # Environment variables
 .env.local
 .env.*.local
+
+# Tests
+tests/
+test_*.py
+pytest.ini
+conftest.py
+.coverage
+htmlcov/
+.pytest_cache/
