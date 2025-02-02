@@ -1,24 +1,34 @@
-[phases.setup]
-nixPkgs = ["nodejs", "npm", "python3", "pip"]
+[build]
+builder = "nixpacks"
+buildCommand = """
+# Install Node.js LTS
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+apt-get update && apt-get install -y nodejs
 
-[phases.install]
-cmds = [
-  "python -m pip install --upgrade pip",
-  "pip install -r requirements.txt"
-]
+# Show Node.js version
+node --version
+npm --version
 
-[phases.build]
-cmds = [
-  "echo 'Node.js version:' && node --version",
-  "echo 'npm version:' && npm --version",
-  "cd ui && npm install",
-  "npm run build",
-  "cd ..",
-  "ls -la ui/build || echo 'Build directory not found'"
-]
+# Build frontend
+echo "Building frontend..."
+cd ui
+npm ci
+npm run build
+cd ..
 
-[start]
-cmd = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Create directories and copy files
+echo "Copying build files..."
+mkdir -p ui/build
+cp -r ui/.svelte-kit/output/client/* ui/build/ || echo "Failed to copy build files"
+
+# List directories for debugging
+echo "Final directory structure:"
+ls -la ui/
+ls -la ui/build/ || echo "Build directory is empty"
+"""
 
 [deploy]
 startCommand = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
