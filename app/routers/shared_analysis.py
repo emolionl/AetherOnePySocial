@@ -188,13 +188,35 @@ async def create_shared_analysis(
             detail=f"Error saving shared analysis: {str(e)}"
         )
 
+@router.get("/my-session-keys")
+def get_my_session_keys(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
 
-@router.get("/by-key/{key}")
-def get_analyses_by_key(
+
+    session_keys = db.query(SessionKey).filter(SessionKey.user_id == current_user.id).all()
+    return session_keys
+
+@router.get("/my-session-keys/{key_id}")
+def get_my_session_key(
+    key_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    session_key = db.query(SessionKey).filter(SessionKey.id == key_id, SessionKey.user_id == current_user.id).first()
+    if not session_key:
+        raise HTTPException(status_code=404, detail="Session key not found")
+    return session_key
+
+@router.get("/my-session-connected-keys/{key}")
+def get_my_session_connected_keys(
     key: str,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+
     print(f"Key: {key}")
     # First, get the session key record
     session_key = db.query(SessionKey).filter(SessionKey.key == key).first()
