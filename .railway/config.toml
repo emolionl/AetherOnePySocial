@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["nodejs", "npm", "python3", "pip"]
+nixPkgs = ["python3", "pip"]
 
 [phases.install]
 cmds = [
@@ -7,23 +7,5 @@ cmds = [
   "pip install -r requirements.txt"
 ]
 
-[phases.build]
-cmds = [
-  "echo 'Node.js version:' && node --version",
-  "echo 'npm version:' && npm --version",
-  "cd ui && npm install",
-  "npm run build",
-  "cd ..",
-  "ls -la ui/build || echo 'Build directory not found'"
-]
-
 [start]
 cmd = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
-
-[deploy]
-startCommand = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
-healthcheckPath = "/api/ping"
-healthcheckTimeout = 30
-
-[build.env]
-NODE_ENV = "production" 
