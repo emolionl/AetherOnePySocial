@@ -28,8 +28,9 @@ env/
 # Node/Svelte
 ui/node_modules/
 ui/.svelte-kit/
-ui/build/
-.DS_Store
+
+# Keep build files
+!ui/build/
 
 # Virtual environments
 env/
