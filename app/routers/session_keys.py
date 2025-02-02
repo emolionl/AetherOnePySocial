@@ -96,3 +96,34 @@ def create_session_key(
         "user_id": session_key.user_id,
         "local_session_id": session_key.local_session_id
     }
+
+@router.get("/my-session-keys")
+def get_session_keys(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    session_keys = db.query(SessionKey).filter(SessionKey.user_id == current_user.id).all()
+    return session_keys
+
+@router.get("/my-session-keys/{key_id}")
+def get_session_key(
+    key_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    session_key = db.query(SessionKey).filter(SessionKey.id == key_id, SessionKey.user_id == current_user.id).first()
+    if not session_key:
+        raise HTTPException(status_code=404, detail="Session key not found")
+    return session_key
+
+@router.get("/connected-session-keys/{key}")
+def get_connected_session_keys(
+    key: str,
+    db: Session = Depends(get_db)
+):
+
+    session_key = db.query(SessionKey).filter(SessionKey.key == key).first()
+    if not session_key:
+        raise HTTPException(status_code=404, detail="Session key not found")
+    return session_key

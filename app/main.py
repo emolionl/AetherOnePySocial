@@ -8,6 +8,10 @@ from app.models.user import User
 from app.routers.auth import get_current_user
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
+from fastapi import HTTPException
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -38,6 +42,19 @@ app.include_router(shared_analysis.router, prefix="/api/shared-analysis", tags=[
 app.include_router(utils.router, prefix="/api/utils", tags=["utils"])
 app.include_router(session_keys.router, prefix="/api/session-keys", tags=["session-keys"])
 
+# Mount the _app directory for SvelteKit's immutable assets
+app.mount("/_app", StaticFiles(directory="ui/build/_app"), name="static_app")
+
+# Mount other static files
+app.mount("/static", StaticFiles(directory="ui/build"), name="static")
+
+# Serve index.html at the root and for all unmatched routes (SPA behavior)
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    if full_path.startswith("api/"):
+        raise HTTPException(status_code=404, detail="Not found")
+    return FileResponse('ui/build/index.html')
+
 # def find_pydantic_models():
 #     for cls in BaseModel.__subclasses__():
 #         print(f"Model: {cls.__name__}")
@@ -48,13 +65,9 @@ app.include_router(session_keys.router, prefix="/api/session-keys", tags=["sessi
 
 # find_pydantic_models()
 
-@app.get("/")
-async def root():
-    return {"message": "Welcome to AetherOnePySocial API"}
-
-@app.get("/ping")
-def ping():
-    return {"message": "pong"}
+@app.get("/api/ping")
+async def ping():
+    return {"status": "ok", "message": "pong"}
 
 @auth.router.get("/protected-route")
 def protected_route(current_user: User = Depends(get_current_user)):
