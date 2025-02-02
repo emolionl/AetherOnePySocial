@@ -42,11 +42,12 @@ app.include_router(shared_analysis.router, prefix="/api/shared-analysis", tags=[
 app.include_router(utils.router, prefix="/api/utils", tags=["utils"])
 app.include_router(session_keys.router, prefix="/api/session-keys", tags=["session-keys"])
 
-# Mount the _app directory for SvelteKit's immutable assets
-app.mount("/_app", StaticFiles(directory="ui/build/_app"), name="static_app")
-
-# Mount other static files
-app.mount("/static", StaticFiles(directory="ui/build"), name="static")
+# Check if build directory exists
+if os.path.exists("ui/build"):
+    # Mount the static files directory
+    app.mount("/", StaticFiles(directory="ui/build", html=True), name="static")
+else:
+    print("Warning: ui/build directory not found. Static files will not be served.")
 
 # Serve index.html at the root and for all unmatched routes (SPA behavior)
 @app.get("/{full_path:path}")
