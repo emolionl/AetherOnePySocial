@@ -1,8 +1,11 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pip install -r requirements.txt"
+buildCommand = """
+cd ui && npm install && npm run build && cd ..
+pip install -r requirements.txt
+"""
 
 [deploy]
 startCommand = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
-healthcheckPath = "/"
-healthcheckTimeout = 100 
+healthcheckPath = "/api/ping"
+healthcheckTimeout = 30 

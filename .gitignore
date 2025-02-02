@@ -4,6 +4,32 @@ __pycache__/
 *$py.class
 *.so
 .Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.env
+venv/
+ENV/
+env/
+.venv
+
+# Node/Svelte
+ui/node_modules/
+ui/.svelte-kit/
+ui/build/
+.DS_Store
 
 # Virtual environments
 env/
@@ -31,22 +57,6 @@ logs/
 # Dependency directories
 node_modules/
 site/
-
-# Build and packaging
-*.egg-info/
-dist/
-build/
-develop-eggs/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg
 
 # Environment variables
 .env.local
