@@ -5,18 +5,32 @@ buildCommand = """
 curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 apt-get install -y nodejs
 
+# Debug: Show current directory
+pwd
+ls -la
+
 # Build frontend
 cd ui
 npm install
 npm run build
+
+# Debug: Show build output
+ls -la .svelte-kit/output/client/
+ls -la build/
+
+# Copy files to correct location
+mkdir -p build
+cp -r .svelte-kit/output/client/* build/
+
+# Debug: Verify files
+ls -la build/
+
 cd ..
+# Debug: Final structure
+ls -la ui/build/
 
 # Install Python dependencies
 pip install -r requirements.txt
-
-# Ensure build directory exists and copy files
-mkdir -p ui/build
-cp -r ui/.svelte-kit/output/client/* ui/build/
 """
 
 [deploy]
