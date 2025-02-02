@@ -1,39 +1,39 @@
 [build]
 builder = "nixpacks"
 buildCommand = """
-# Install Node.js and npm
-curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-apt-get install -y nodejs
+# Install Node.js LTS
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+apt-get update && apt-get install -y nodejs
 
-# Debug: Show current directory
-pwd
-ls -la
+# Show Node.js version
+node --version
+npm --version
 
 # Build frontend
+echo "Building frontend..."
 cd ui
-npm install
+npm ci
 npm run build
-
-# Debug: Show build output
-ls -la .svelte-kit/output/client/
-ls -la build/
-
-# Copy files to correct location
-mkdir -p build
-cp -r .svelte-kit/output/client/* build/
-
-# Debug: Verify files
-ls -la build/
-
 cd ..
-# Debug: Final structure
-ls -la ui/build/
 
 # Install Python dependencies
 pip install -r requirements.txt
+
+# Create directories and copy files
+echo "Copying build files..."
+mkdir -p ui/build
+cp -r ui/.svelte-kit/output/client/* ui/build/ || echo "Failed to copy build files"
+
+# List directories for debugging
+echo "Final directory structure:"
+ls -la ui/
+ls -la ui/build/ || echo "Build directory is empty"
 """
 
 [deploy]
 startCommand = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
 healthcheckPath = "/api/ping"
-healthcheckTimeout = 30 
+healthcheckTimeout = 30
+
+[build.env]
+NODE_ENV = "production" 
