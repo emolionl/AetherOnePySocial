@@ -10,7 +10,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 # Initialize FastAPI app
-app = FastAPI()
+app = FastAPI(
+    # This will treat URLs with and without trailing slashes as the same
+    redirect_slashes=True
+)
 
 # Configure CORS
 app.add_middleware(
