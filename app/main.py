@@ -1,10 +1,11 @@
 from fastapi import FastAPI, Depends
 from app.database import Base, engine, init_db
-from app.routers import auth,  catalog, rates, cases, sessions, analysis, shared_analysis, utils, session_keys
+from app.routers import auth, keys, analysis, utils
 import uvicorn
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app.models.user import User
+from app.routers import analysis
 from app.routers.auth import get_current_user
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -32,14 +33,9 @@ Base.metadata.create_all(bind=engine)
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
-#app.include_router(catalog.router, prefix="/api/catalog", tags=["Catalog"])
-#app.include_router(rates.router, prefix="/api/rates", tags=["Rates"])
-#app.include_router(cases.router, prefix="/api/cases", tags=["Cases"])
-#app.include_router(sessions.router, prefix="/api/sessions", tags=["Sessions"])
-#app.include_router(analysis.router, prefix="/api/analysis", tags=["Analysis"])
-app.include_router(shared_analysis.router, prefix="/api/shared-analysis", tags=["shared-analysis"])
+app.include_router(analysis.router, prefix="/api/analysis", tags=["analysis"])
 app.include_router(utils.router, prefix="/api/utils", tags=["utils"])
-app.include_router(session_keys.router, prefix="/api/session-keys", tags=["session-keys"])
+app.include_router(keys.router, prefix="/api/keys", tags=["keys"])
 # def find_pydantic_models():
 #     for cls in BaseModel.__subclasses__():
 #         print(f"Model: {cls.__name__}")

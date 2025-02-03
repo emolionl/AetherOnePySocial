@@ -8,14 +8,22 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from fastapi import status
+from pydantic_settings import BaseSettings
+import os
+from dotenv import load_dotenv
 
-# JWT Configuration
-SECRET_KEY = "hello_my_secret_key"  # Change this to a secure secret key
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+load_dotenv()
+
+SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
+
+# Validate environment variables
+if not SECRET_KEY:
+    raise ValueError("JWT_SECRET_KEY must be set in environment variables")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
 
 router = APIRouter()
 
@@ -80,7 +88,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
             "username": db_user.username, 
             "email": db_user.email}
 
-@router.post("/token", response_model=Token)
+@router.post("/login", response_model=Token)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == form_data.username).first()
     if not user or not pwd_context.verify(form_data.password, user.password_hash):

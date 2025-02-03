@@ -66,118 +66,13 @@
             ]
         },
         {
-            "name": "Users",
+            "name": "Analysis",
             "item": [
                 {
-                    "name": "Create User",
+                    "name": "Create Analysis",
                     "request": {
                         "method": "POST",
-                        "url": "{{base_url}}/api/users/?username=testuser&email=test@example.com",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Sessions",
-            "item": [
-                {
-                    "name": "Create Session",
-                    "request": {
-                        "method": "POST",
-                        "url": "{{base_url}}/api/sessions",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"key_id\": 1,\n    \"user_id\": 1,\n    \"machine_id\": 1\n}"
-                        }
-                    }
-                },
-                {
-                    "name": "Get All Sessions",
-                    "request": {
-                        "method": "GET",
-                        "url": "{{base_url}}/api/sessions"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Rate Analysis",
-            "item": [
-                {
-                    "name": "Create Rate",
-                    "request": {
-                        "method": "POST",
-                        "url": "{{base_url}}/api/rates",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"signature\": \"test_signature\",\n    \"description\": \"test description\",\n    \"catalog_id\": 1,\n    \"analysis_id\": 1,\n    \"energetic_value\": 100,\n    \"gv\": 50,\n    \"level\": 1,\n    \"potencyType\": \"high\",\n    \"potency\": 10\n}"
-                        }
-                    }
-                },
-                {
-                    "name": "Get All Rates",
-                    "request": {
-                        "method": "GET",
-                        "url": "{{base_url}}/api/rates"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Catalog",
-            "item": [
-                {
-                    "name": "Create Catalog Entry",
-                    "request": {
-                        "method": "POST",
-                        "url": "{{base_url}}/api/catalog",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"name\": \"Test Catalog\",\n    \"description\": \"Test Description\"\n}"
-                        }
-                    }
-                },
-                {
-                    "name": "Get All Catalog Entries",
-                    "request": {
-                        "method": "GET",
-                        "url": "{{base_url}}/api/catalog"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Session Keys",
-            "item": [
-                {
-                    "name": "Create Session Key",
-                    "request": {
-                        "method": "POST",
-                        "url": "{{base_url}}/api/session-keys",
+                        "url": "{{base_url}}/api/analysis",
                         "header": [
                             {
                                 "key": "Authorization",
@@ -190,8 +85,21 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user_id\": 1,\n    \"local_session_id\": 1,\n    \"key\": null\n}"
+                            "raw": "{\n    \"data\": {\n        \"analyses\": {\n            \"analyses\": [\n                {\n                    \"analysis\": {\n                        \"catalog_id\": 2,\n                        \"created\": \"2025-01-27T14:11:40\",\n                        \"id\": 9,\n                        \"name\": null,\n                        \"session_id\": 7,\n                        \"target_gv\": 699\n                    },\n                    \"catalog\": {\n                        \"description\": \"radionics-rates\",\n                        \"id\": 2,\n                        \"name\": \"emotions\"\n                    },\n                    \"rate_analysis\": [\n                        {\n                            \"analysis_id\": 9,\n                            \"catalog_id\": 2,\n                            \"description\": null,\n                            \"energetic_value\": 1002,\n                            \"gv\": 962,\n                            \"id\": 1,\n                            \"level\": 0,\n                            \"note\": \"\",\n                            \"potency\": 0,\n                            \"potencyType\": \"8989\",\n                            \"signature\": \"wary\"\n                        },\n                        // ... rest of rate_analysis array ...\n                    ],\n                    \"rates\": [\n                        {\n                            \"catalog_id\": 2,\n                            \"description\": null,\n                            \"id\": 13,\n                            \"signature\": \"afraid\"\n                        },\n                        // ... rest of rates array ...\n                    ]\n                }\n            ],\n            \"case\": {\n                \"color\": \"#303de8\",\n                \"created\": \"2025-01-27T14:10:50\",\n                \"description\": \"test6\",\n                \"email\": \"test6@test.com\",\n                \"id\": 6,\n                \"last_change\": \"Mon, 27 Jan 2025 14:10:50 GMT\",\n                \"name\": \"test6\"\n            },\n            \"session\": {\n                \"case_id\": 6,\n                \"created\": \"2025-01-27T14:11:18\",\n                \"description\": \"test6\",\n                \"id\": 7,\n                \"intention\": \"test6\"\n            }\n        },\n        \"key\": \"fake_key\",\n        \"machine_id\": \"machine_id\",\n        \"session_id\": 7,\n        \"user_id\": 1\n    }\n}"
                         }
+                    }
+                },
+                {
+                    "name": "Get Analysis",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/analysis/1",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            }
+                        ]
                     }
                 }
             ]
@@ -223,20 +131,53 @@
             ]
         },
         {
-            "name": "Utils",
+            "name": "Keys",
             "item": [
                 {
-                    "name": "Clear All Data",
+                    "name": "Create Session Key",
                     "request": {
                         "method": "POST",
-                        "url": "{{base_url}}/api/utils/clear-data",
+                        "url": "{{base_url}}/api/keys",
                         "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            },
                             {
                                 "key": "Content-Type",
                                 "value": "application/json"
                             }
                         ],
-                        "description": "Clears all data including users, session keys, and analysis data"
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 1,\n    \"key\": \"some-key\"\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Utils",
+            "item": [
+                {
+                    "name": "Clear All Data (Development Only)",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{base_url}}/api/utils/clear-data",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            }
+                        ],
+                        "description": "Only works in development environment"
+                    }
+                },
+                {
+                    "name": "Ping",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/ping"
                     }
                 }
             ]
@@ -246,12 +187,20 @@
         {
             "key": "base_url",
             "value": "http://localhost:8000",
-            "type": "string"
+            "type": "string",
+            "description": "Local development server"
+        },
+        {
+            "key": "base_url_prod",
+            "value": "https://aetheronepysocial.up.railway.app",
+            "type": "string",
+            "description": "Production server"
         },
         {
             "key": "jwt_token",
             "value": "your_jwt_token_here",
-            "type": "string"
+            "type": "string",
+            "description": "JWT token received after login"
         }
     ]
 }

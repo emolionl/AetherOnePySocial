@@ -29,13 +29,13 @@ class TestAuth:
 
     @pytest.mark.order(1)
     def test_ping(self):
-        response = self.client.get(f"{self.local_url}/ping")
+        response = self.client.get(f"{self.local_url}/ping/")
         assert response.status_code == 200
         assert response.json() == {"message": "pong"}
     @pytest.mark.order(2)
     def test_register(self):
         response = self.client.post(
-            f"{self.local_url}/api/auth/register",
+            f"{self.local_url}/api/auth/register/",
             json={
                 "username": self.username,
                 "email": self.email,
@@ -53,7 +53,7 @@ class TestAuth:
     @pytest.mark.order(3)
     def test_get_token(self):
         response = self.client.post(
-            f"{self.local_url}/api/auth/token",
+            f"{self.local_url}/api/auth/login/",
             headers={"Content-Type": "application/x-www-form-urlencoded"},
             data={
                 "username": self.email,
@@ -72,7 +72,7 @@ class TestAuth:
     def test_create_session_key(self):
         token = self.token
         response = self.client.post(
-            "/api/session-keys/",
+            "/api/keys/",
             headers={"Authorization": f"Bearer {token}"},
             json={
                 "user_id": self.user_id,
@@ -90,7 +90,7 @@ class TestAuth:
         token = self.token
         # Create first key
         response = self.client.post(
-            "/api/session-keys/",
+            "/api/keys/",
             headers={"Authorization": f"Bearer {token}"},
             json={
                 "user_id": self.user_id,
@@ -108,7 +108,7 @@ class TestAuth:
         test_key = self.session_key
         # Create first key
         response = self.client.post(
-            "/api/session-keys/",
+            "/api/keys/",
             headers={"Authorization": f"Bearer {token}"},
 
             json={
@@ -124,7 +124,7 @@ class TestAuth:
     @pytest.mark.order(7)
     def test_unauthorized_access(self):
         response = self.client.post(
-            "/api/session-keys/",
+            "/api/keys/",
             json={
                 "user_id": self.user_id,
                 "local_session_id": self.local_session_id
@@ -137,7 +137,7 @@ class TestAuth:
     def test_wrong_user_id(self):
         token = self.token
         response = self.client.post(
-            "/api/session-keys/",
+            "/api/keys/",
             headers={"Authorization": f"Bearer {token}"},
             json={
                 "user_id": self.user_id + 1,
@@ -152,7 +152,7 @@ class TestAuth:
         token = self.token
         # Create first key
         response1 = self.client.post(
-            f"{self.local_url}/api/session-keys/",
+            f"{self.local_url}/api/keys/",
             headers={"Authorization": f"Bearer {token}"},
             json={
                 "user_id": self.user_id,
@@ -165,7 +165,7 @@ class TestAuth:
         
         # Create second key with different local_session_id
         response2 = self.client.post(
-            f"{self.local_url}/api/session-keys/",
+            f"{self.local_url}/api/keys/",
             headers={"Authorization": f"Bearer {token}"},
             json={
                 "user_id": self.user_id,
@@ -700,7 +700,7 @@ class TestAuth:
 
         # Upload the analysis
         response = self.client.post(
-            f"{self.local_url}/api/shared-analysis",
+            f"{self.local_url}/api/analysis/share/",
             headers={"Authorization": f"Bearer {self.token}"},
             json=analysis_data
         )
@@ -716,10 +716,11 @@ class TestAuth:
         print(f"Token: {self.token}")
         # Now test getting the analysis by key
         response = self.client.get(
-            f"{self.local_url}/api/shared-analysis/by-key/{valid_key}",
+            f"{self.local_url}/api/analysis/key/{valid_key}/",
             headers={"Authorization": f"Bearer {self.token}"}
         )
         
+
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "success"
@@ -730,7 +731,7 @@ class TestAuth:
         # Test non-existent key (using a random UUID)
         non_existent_uuid = str(uuid.uuid4())
         response = self.client.get(
-            f"{self.local_url}/api/shared-analysis/by-key/{non_existent_uuid}",
+            f"{self.local_url}/api/analysis/key/{non_existent_uuid}/",
             headers={"Authorization": f"Bearer {self.token}"}
         )
         assert response.status_code == 404
@@ -738,7 +739,7 @@ class TestAuth:
         # Test unauthorized access (using a different user)
         # First create a new user
         new_user_response = self.client.post(
-            f"{self.local_url}/api/auth/register",
+            f"{self.local_url}/api/auth/register/",
             json={
                 "username": f"{self.username}_2",
                 "email": f"test2_{self.timestamp}@example.com",
@@ -750,7 +751,7 @@ class TestAuth:
         
         # Try to access the original user's shared analysis
         response = self.client.get(
-            f"{self.local_url}/api/shared-analysis/by-key/{valid_key}",
+            f"{self.local_url}/api/analysis/key/{valid_key}/",
             headers={"Authorization": f"Bearer {new_user_token}"}
         )
         assert response.status_code == 403
@@ -762,7 +763,7 @@ class TestAuth:
 
         # Create a new user first
         new_user_response = self.client.post(
-            f"{self.local_url}/api/auth/register",
+            f"{self.local_url}/api/auth/register/",
             json={
                 "username": f"{self.username}_3",
                 "email": f"test3_{self.timestamp}@example.com",
@@ -1306,7 +1307,7 @@ class TestAuth:
         #return "data some"
         # Upload the analysis with the new user's token
         response = self.client.post(
-            f"{self.local_url}/api/shared-analysis",
+            f"{self.local_url}/api/analysis/share/",
             headers={"Authorization": f"Bearer {new_user_token}"},
             json=analysis_data
         )
@@ -1316,7 +1317,7 @@ class TestAuth:
         return "data some"
         # Now verify we can get both users' analyses using the key
         response = self.client.get(
-            f"{self.local_url}/api/shared-analysis/by-key/{valid_key}",
+            f"{self.local_url}/api/analysis/key/{valid_key}/",
             headers={"Authorization": f"Bearer {new_user_token}"}
         )
         
