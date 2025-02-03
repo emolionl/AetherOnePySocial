@@ -34,17 +34,8 @@ Base.metadata.create_all(bind=engine)
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(analysis.router, prefix="/api/analysis", tags=["analysis"])
-app.include_router(utils.router, prefix="/api/utils", tags=["utils"])
 app.include_router(keys.router, prefix="/api/keys", tags=["keys"])
-# def find_pydantic_models():
-#     for cls in BaseModel.__subclasses__():
-#         print(f"Model: {cls.__name__}")
-#         if hasattr(cls, 'Config'):
-#             print(f"  Has Config class with attributes: {dir(cls.Config)}")
-#         if hasattr(cls, 'model_config'):
-#             print(f"  Has model_config: {cls.model_config}")
-
-# find_pydantic_models()
+app.include_router(utils.router, prefix="/api/utils", tags=["utils"])
 
 @app.get("/")
 async def root():

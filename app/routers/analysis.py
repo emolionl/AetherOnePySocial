@@ -27,6 +27,7 @@ async def create_share_analysis(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+
     try:
         logger.info(f"Received data: {data}")
         

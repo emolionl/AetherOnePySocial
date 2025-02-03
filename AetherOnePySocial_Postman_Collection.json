@@ -69,10 +69,10 @@
             "name": "Analysis",
             "item": [
                 {
-                    "name": "Create Analysis",
+                    "name": "Shared Analysis",
                     "request": {
                         "method": "POST",
-                        "url": "{{base_url}}/api/analysis",
+                        "url": "{{base_url}}/api/analysis/share",
                         "header": [
                             {
                                 "key": "Authorization",
@@ -93,25 +93,7 @@
                     "name": "Get Analysis",
                     "request": {
                         "method": "GET",
-                        "url": "{{base_url}}/api/analysis/1",
-                        "header": [
-                            {
-                                "key": "Authorization",
-                                "value": "Bearer {{jwt_token}}"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "name": "Shared Analysis",
-            "item": [
-                {
-                    "name": "Create Shared Analysis (Full Example)",
-                    "request": {
-                        "method": "POST",
-                        "url": "{{base_url}}/api/shared-analysis",
+                        "url": "{{base_url}}/api/analysis/key",
                         "header": [
                             {
                                 "key": "Authorization",
@@ -124,12 +106,13 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"data\": {\n        \"analyses\": {\n            \"analyses\": [\n                {\n                    \"analysis\": {\n                        \"catalog_id\": 2,\n                        \"created\": \"2025-01-27T14:11:40\",\n                        \"id\": 9,\n                        \"name\": null,\n                        \"session_id\": 7,\n                        \"target_gv\": 699\n                    },\n                    \"catalog\": {\n                        \"description\": \"radionics-rates\",\n                        \"id\": 2,\n                        \"name\": \"emotions\"\n                    },\n                    \"rate_analysis\": [\n                        {\n                            \"analysis_id\": 9,\n                            \"catalog_id\": 2,\n                            \"description\": null,\n                            \"energetic_value\": 1002,\n                            \"gv\": 962,\n                            \"id\": 1,\n                            \"level\": 0,\n                            \"note\": \"\",\n                            \"potency\": 0,\n                            \"potencyType\": \"8989\",\n                            \"signature\": \"wary\"\n                        },\n                        // ... rest of rate_analysis array ...\n                    ],\n                    \"rates\": [\n                        {\n                            \"catalog_id\": 2,\n                            \"description\": null,\n                            \"id\": 13,\n                            \"signature\": \"afraid\"\n                        },\n                        // ... rest of rates array ...\n                    ]\n                }\n            ],\n            \"case\": {\n                \"color\": \"#303de8\",\n                \"created\": \"2025-01-27T14:10:50\",\n                \"description\": \"test6\",\n                \"email\": \"test6@test.com\",\n                \"id\": 6,\n                \"last_change\": \"Mon, 27 Jan 2025 14:10:50 GMT\",\n                \"name\": \"test6\"\n            },\n            \"session\": {\n                \"case_id\": 6,\n                \"created\": \"2025-01-27T14:11:18\",\n                \"description\": \"test6\",\n                \"id\": 7,\n                \"intention\": \"test6\"\n            }\n        },\n        \"key\": \"fake_key\",\n        \"machine_id\": \"machine_id\",\n        \"session_id\": 7,\n        \"user_id\": 1\n    }\n}"
+                            "raw": "{\n    \"key_id\": \"your-key-id-here\"\n}"
                         }
                     }
                 }
             ]
         },
+        
         {
             "name": "Keys",
             "item": [
@@ -152,6 +135,39 @@
                             "mode": "raw",
                             "raw": "{\n    \"user_id\": 1,\n    \"key\": \"some-key\"\n}"
                         }
+                    }
+                },
+                {
+                    "name": "Get All Keys",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/keys",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "Get Key by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/keys/{key_id}",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            }
+                        ],
+                        "variable": [
+                            {
+                                "key": "key_id",
+                                "value": "your-key-id-here",
+                                "description": "The ID of the key to retrieve"
+                            }
+                        ]
                     }
                 }
             ]
