@@ -153,6 +153,82 @@ Response:
 }
 ```
 
+## Entity Relationship Diagram (ERD)
+
+```
+[User] 1---* [SessionKey] *---1 [Session] *---1 [Analysis] *---1 [RateAnalysis]
+   |                |                |                |
+   |                |                |                |
+   |                |                |                |
+   *                *                *                *
+[Case]           [Catalog]        [Rate]           [Machine]
+```
+
+- **User**: Has many SessionKeys, Sessions, and Cases.
+- **SessionKey**: Belongs to a User, referenced by Sessions.
+- **Session**: Belongs to a User, Case, and SessionKey. Has many Analyses.
+- **Analysis**: Belongs to a Session and Catalog. Has many RateAnalyses.
+- **RateAnalysis**: Belongs to an Analysis and Catalog.
+- **Case**: Belongs to a User. Has many Sessions.
+- **Catalog**: Has many Analyses, Rates, and RateAnalyses.
+- **Rate**: Belongs to a Catalog.
+- **Machine**: Can be referenced by Sessions, Cases, etc.
+
+## Endpoint Data Requirements
+
+### Register a User
+`POST /api/auth/register`
+```json
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123"
+}
+```
+
+### Login
+`POST /api/auth/login`
+- Content-Type: application/x-www-form-urlencoded
+- Body:
+  - username: your email (e.g., test@example.com)
+  - password: your password
+
+### Create a Machine
+`POST /api/machines/`
+```json
+{
+  "machine_name": "Machine1",
+  "description": "Test machine",
+  "api_key": "1234"
+}
+```
+
+### Create a Session Key
+`POST /api/keys/`
+```json
+{
+  "user_id": 1,
+  "local_session_id": 123
+}
+```
+
+### Share Analysis
+`POST /api/analysis/share`
+```json
+{
+  "data": { ... },
+  "message": "Found 3 analyses with their related data",
+  "status": "success"
+}
+```
+
+### Get Analysis by Key
+`GET /api/analysis/key/{key}`
+- Requires Authorization header with Bearer token.
+
+### Other Endpoints
+See the OpenAPI docs at `/docs` for full details on all endpoints and their required/requested data.
+
 ## Contribution
 Feel free to fork the repository and submit pull requests. For major changes, open an issue to discuss what you would like to change.
 
