@@ -214,6 +214,56 @@ Response:
 
 ### Share Analysis
 `POST /api/analysis/share`
+
+**Request Body Structure:**
+- `data` (object)
+  - `user_id` (int): The user ID submitting the analysis
+  - `machine_id` (str): The machine identifier
+  - `key` (str): The session key (UUID string)
+  - `session_id` (int): The local session ID
+  - `analyses` (object)
+    - `analyses` (list of objects): Each contains:
+      - `analysis` (object):
+        - `catalog_id` (int)
+        - `created` (str, ISO datetime)
+        - `id` (int)
+        - `name` (str or null)
+        - `session_id` (int)
+        - `target_gv` (int)
+      - `catalog` (object):
+        - `description` (str)
+        - `id` (int)
+        - `name` (str)
+      - `rate_analysis` (list of objects): Each contains:
+        - `analysis_id` (int)
+        - `catalog_id` (int)
+        - `description` (str or null)
+        - `energetic_value` (int)
+        - `gv` (int)
+        - `id` (int)
+        - `level` (int)
+        - `note` (str)
+        - `potency` (int)
+        - `potencyType` (str)
+        - `signature` (str)
+    - `case` (object):
+      - `color` (str)
+      - `created` (str, ISO datetime)
+      - `description` (str)
+      - `email` (str)
+      - `id` (int)
+      - `last_change` (str, RFC 1123 datetime)
+      - `name` (str)
+    - `session` (object):
+      - `case_id` (int)
+      - `created` (str, ISO datetime)
+      - `description` (str)
+      - `id` (int)
+      - `intention` (str)
+- `message` (str): Status or info message
+- `status` (str): Status indicator (e.g., "success")
+
+**Example:**
 ```json
 {
   "data": {
