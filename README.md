@@ -203,12 +203,76 @@ Response:
 }
 ```
 
-### Create a Session Key
+### Create a Session Key (Detailed)
 `POST /api/keys/`
+
+**Request Body Structure:**
+- `user_id` (int): The user ID for whom the session key is being created (required)
+- `local_session_id` (int): The local session ID (required)
+- `key` (str, UUID, optional): The session key (if not provided, a new UUID will be generated)
+- `session_id` (UUID, optional): The session ID (optional, rarely needed)
+
+**Example Request:**
 ```json
 {
   "user_id": 1,
   "local_session_id": 123
+}
+```
+
+**Possible Responses:**
+
+- **Success (new key created):**
+```json
+{
+  "status": "created",
+  "message": "New session key created successfully",
+  "key": "b3e1c2d4-5f6a-7b8c-9d0e-1f2a3b4c5d6e",
+  "user_id": 1,
+  "local_session_id": 123
+}
+```
+
+- **Key already exists for this user/local_session_id:**
+```json
+{
+  "status": "exists",
+  "message": "Session key already exists for this user in combination with local_session_id",
+  "key": "b3e1c2d4-5f6a-7b8c-9d0e-1f2a3b4c5d6e",
+  "user_id": 1,
+  "local_session_id": 123
+}
+```
+
+- **Combination of user_id, key, and local_session_id already exists:**
+```json
+{
+  "status": "error",
+  "message": "This combination of user_id, key, and local_session_id already exists. This is not allowed.",
+  "user_id": 1,
+  "key": "b3e1c2d4-5f6a-7b8c-9d0e-1f2a3b4c5d6e",
+  "local_session_id": 123
+}
+```
+
+- **Not authorized (user mismatch):**
+```json
+{
+  "detail": "Not authorized to create/update session keys for other users"
+}
+```
+
+- **Missing required fields:**
+```json
+{
+  "detail": "local_session_id and user_id are required fields"
+}
+```
+
+- **Invalid key format:**
+```json
+{
+  "detail": "Invalid key format. Must be a valid UUID"
 }
 ```
 
