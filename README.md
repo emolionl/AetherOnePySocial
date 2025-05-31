@@ -329,9 +329,118 @@ Response:
 }
 ```
 
-### Get Analysis by Key
+### Get Analysis by Key (Detailed Response)
 `GET /api/analysis/key/{key}`
-- Requires Authorization header with Bearer token.
+
+**Response Structure:**
+- `status` (str): Status indicator (e.g., "success")
+- `status_code` (int): HTTP status code (e.g., 200)
+- `message` (str): Status or info message
+- `data` (list of session objects): Each session contains:
+  - `id` (int): Session ID
+  - `local_id` (int): Local session ID
+  - `machine_id` (str): Machine identifier
+  - `user_id` (int): User ID
+  - `description` (str): Session description
+  - `intention` (str): Session intention
+  - `created` (str): ISO datetime string
+  - `case` (object):
+    - `id` (int)
+    - `local_id` (int)
+    - `name` (str)
+    - `description` (str)
+    - `email` (str)
+    - `color` (str)
+    - `created` (str, ISO datetime)
+    - `last_change` (str, ISO datetime)
+  - `analyses` (list of objects): Each contains:
+    - `id` (int)
+    - `local_id` (int)
+    - `machine_id` (str)
+    - `catalog_id` (int)
+    - `target_gv` (int)
+    - `created` (str, ISO datetime)
+    - `catalog` (object):
+      - `id` (int)
+      - `name` (str)
+      - `description` (str)
+    - `rate_analyses` (list of objects): Each contains:
+      - `id` (int)
+      - `local_id` (int)
+      - `machine_id` (str)
+      - `catalog_id` (int)
+      - `signature` (str)
+      - `description` (str)
+      - `energetic_value` (int)
+      - `gv` (int)
+      - `level` (int)
+      - `potencyType` (str)
+      - `potency` (int)
+      - `note` (str)
+
+**Example:**
+```json
+{
+  "status": "success",
+  "status_code": 200,
+  "message": "Sessions retrieved successfully",
+  "data": [
+    {
+      "id": 1,
+      "local_id": 101,
+      "machine_id": "machine_id_1",
+      "user_id": 1,
+      "description": "Session description",
+      "intention": "Session intention",
+      "created": "2025-01-27T14:11:18",
+      "case": {
+        "id": 6,
+        "local_id": 201,
+        "name": "test6",
+        "description": "test6",
+        "email": "test6@test.com",
+        "color": "#303de8",
+        "created": "2025-01-27T14:10:50",
+        "last_change": "2025-01-27T14:10:50"
+      },
+      "analyses": [
+        {
+          "id": 9,
+          "local_id": 301,
+          "machine_id": "machine_id_1",
+          "catalog_id": 2,
+          "target_gv": 699,
+          "created": "2025-01-27T14:11:40",
+          "catalog": {
+            "id": 2,
+            "name": "emotions",
+            "description": "radionics-rates"
+          },
+          "rate_analyses": [
+            {
+              "id": 1,
+              "local_id": 401,
+              "machine_id": "machine_id_1",
+              "catalog_id": 2,
+              "signature": "wary",
+              "description": null,
+              "energetic_value": 1002,
+              "gv": 962,
+              "level": 0,
+              "potencyType": "8989",
+              "potency": 0,
+              "note": ""
+            }
+            // ... more rate_analyses ...
+          ]
+        }
+        // ... more analyses ...
+      ]
+    }
+    // ... more sessions ...
+  ]
+}
+```
 
 ### Other Endpoints
 See the OpenAPI docs at `/docs` for full details on all endpoints and their required/requested data.
