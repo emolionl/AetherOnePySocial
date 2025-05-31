@@ -216,7 +216,64 @@ Response:
 `POST /api/analysis/share`
 ```json
 {
-  "data": { ... },
+  "data": {
+    "user_id": 1,
+    "machine_id": "machine_id_1",
+    "key": "session-key-uuid",
+    "session_id": 7,
+    "analyses": {
+      "analyses": [
+        {
+          "analysis": {
+            "catalog_id": 2,
+            "created": "2025-01-27T14:11:40",
+            "id": 9,
+            "name": null,
+            "session_id": 7,
+            "target_gv": 699
+          },
+          "catalog": {
+            "description": "radionics-rates",
+            "id": 2,
+            "name": "emotions"
+          },
+          "rate_analysis": [
+            {
+              "analysis_id": 9,
+              "catalog_id": 2,
+              "description": null,
+              "energetic_value": 1002,
+              "gv": 962,
+              "id": 1,
+              "level": 0,
+              "note": "",
+              "potency": 0,
+              "potencyType": "8989",
+              "signature": "wary"
+            }
+            // ... more rate_analysis objects ...
+          ]
+        }
+        // ... more analyses ...
+      ],
+      "case": {
+        "color": "#303de8",
+        "created": "2025-01-27T14:10:50",
+        "description": "test6",
+        "email": "test6@test.com",
+        "id": 6,
+        "last_change": "Mon, 27 Jan 2025 14:10:50 GMT",
+        "name": "test6"
+      },
+      "session": {
+        "case_id": 6,
+        "created": "2025-01-27T14:11:18",
+        "description": "test6",
+        "id": 7,
+        "intention": "test6"
+      }
+    }
+  },
   "message": "Found 3 analyses with their related data",
   "status": "success"
 }
