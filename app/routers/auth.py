@@ -11,12 +11,13 @@ from fastapi import status
 from pydantic_settings import BaseSettings
 import os
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
 
 SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
+ACCESS_TOKEN_EXPIRE_MINUTES = 525600  # 1 year
 
 # Validate environment variables
 if not SECRET_KEY:
@@ -65,8 +66,13 @@ def create_access_token(data: dict):
 
 @router.post("/register", response_model=Token)
 def register(user: UserCreate, db: Session = Depends(get_db)):
+    logger = logging.getLogger("auth.register")
+    logger.debug(f"Received registration data: {user}")
     # Check if user exists
-    if db.query(User).filter(User.email == user.email).first():
+    existing_user = db.query(User).filter(User.email == user.email).first()
+    logger.debug(f"Existing user found: {existing_user}")
+    if existing_user:
+        logger.warning(f"Attempt to register with already registered email: {user.email}")
         raise HTTPException(status_code=400, detail="Email already registered")
     
     # Create new user
